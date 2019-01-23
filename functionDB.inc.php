@@ -1,4 +1,5 @@
 <?php
+
 define('SERVER', "localhost");
 define('DBNAME', "m152");
 define('USER', "root");
@@ -17,5 +18,31 @@ function getConnexion() {
         }
     } else {
         return $db;
+    }
+}
+
+function insertPost($commentaire, $typeMedia, $nomMedia, $datePost) {
+    try {
+        $connexion = getConnexion();
+        $requete = $connexion->prepare("INSERT INTO post (`commentaire`, `typeMedia`, `nomMedia`, `datePost`) VALUES (:commentaire, :typeMedia, :nomMedia, :datePost)");
+        $requete->bindParam(":commentaire", $commentaire, PDO::PARAM_STR);
+        $requete->bindParam(":typeMedia", $typeMedia, PDO::PARAM_STR);
+        $requete->bindParam(":nomMedia", $nomMedia, PDO::PARAM_STR);
+        $requete->bindParam(":datePost", $datePost, PDO::PARAM_STR);
+        $requete->execute();
+    } catch (Exception $exc) {
+        echo $exc->getTraceAsString();
+    }
+}
+
+function getAllPost() {
+    try {
+        $connexion = myDatabase();
+        $requete = $connexion->prepare("SELECT * FROM post");
+        $requete->execute();
+        $resultat = $requete->fetchAll(PDO::FETCH_ASSOC);
+        return $resultat;
+    } catch (Exception $ex) {
+        
     }
 }

@@ -1,4 +1,9 @@
+<?php 
 
+require_once 'functionDB.inc.php';
+
+$arrPost = getAllPost();
+?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -8,12 +13,17 @@
     </head>
     <body>
         <nav>
-            <a href="home.php">Home</a>
+            <a href="index.php">Home</a>
             <a href="post.php">Post</a>
         </nav>
         <div>
             <img src="img/photoprofil.jpg" alt=""/>
             <p>Bienvenu</p>
+            <?php 
+            foreach ($arrPost as $post) {
+                echo '<figure><img src="'. $post["nomMedia"] .'" alt="" /><figcaption>'.'</figcaption></figure>';
+            }
+            ?>
         </div>
     </body>
 </html>
