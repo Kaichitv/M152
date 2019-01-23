@@ -21,7 +21,7 @@ $arrPost = getAllPost();
             <p>Bienvenu</p>
             <?php 
             foreach ($arrPost as $post) {
-                echo '<figure><img src="'. $post["nomMedia"] .'" alt="" /><figcaption>'.'</figcaption></figure>';
+                echo '<figure><img src="upload/'. $post["nomMedia"] .'" alt="" /><figcaption>'. $post["commentaire"] .'</figcaption></figure>';
             }
             ?>
         </div>

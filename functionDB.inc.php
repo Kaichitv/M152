@@ -37,7 +37,7 @@ function insertPost($commentaire, $typeMedia, $nomMedia, $datePost) {
 
 function getAllPost() {
     try {
-        $connexion = myDatabase();
+        $connexion = getConnexion();
         $requete = $connexion->prepare("SELECT * FROM post");
         $requete->execute();
         $resultat = $requete->fetchAll(PDO::FETCH_ASSOC);
