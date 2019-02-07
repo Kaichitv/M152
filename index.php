@@ -3,6 +3,7 @@
 require_once 'functionDB.inc.php';
 
 $arrPost = getAllPost();
+$arrMedia = getAllMedia();
 ?>
 <!DOCTYPE html>
 <html>
@@ -21,8 +22,10 @@ $arrPost = getAllPost();
             <p>Bienvenu</p>
             <?php 
             foreach ($arrPost as $post) {
-                echo '<figure><img src="upload/'. $post["nomMedia"] .'" alt="" /><figcaption>'. $post["commentaire"] .'</figcaption></figure>';
-            }
+                foreach ($arrMedia as $media){
+                echo '<figure><img src="upload/'. $media["nomFichierMedia"] .'" alt="" /><figcaption>'. $post["commentaire"] .'</figcaption></figure>';
+            }}
+            var_dump($post);
             ?>
         </div>
     </body>

@@ -37,10 +37,10 @@ function insertPost($commentaire, $datePost) {
 function insertMedia($typeMedia, $nomMedia, $idPost){
     try {
         $connexion = getConnexion();
-        $requete = $connexion->prepare("INSERT INTO post (`typeMedia`, `nomFichierMedia`, `idPost`) VALUES (:typeMedia, :nomMedia, :idPost)");
+        $requete = $connexion->prepare("INSERT INTO media (`typeMedia`, `nomFichierMedia`, `idPost`) VALUES (:typeMedia, :nomMedia, :idPost)");
         $requete->bindParam(":typeMedia", $typeMedia, PDO::PARAM_STR);
         $requete->bindParam(":nomMedia", $nomMedia, PDO::PARAM_STR);
-        $requete->bindParam(":idPost", $idPost, PDO::PARAM_STR);
+        $requete->bindParam(":idPost", $idPost, PDO::PARAM_INT);
         $requete->execute();
     } catch (Exception $exc) {
         echo $exc->getTraceAsString();
@@ -51,6 +51,17 @@ function getAllPost() {
     try {
         $connexion = getConnexion();
         $requete = $connexion->prepare("SELECT * FROM post");
+        $requete->execute();
+        $resultat = $requete->fetchAll(PDO::FETCH_ASSOC);
+        return $resultat;
+    } catch (Exception $ex) {
+        
+    }
+}
+function getAllMedia(){
+    try {
+        $connexion = getConnexion();
+        $requete = $connexion->prepare("SELECT * FROM media");
         $requete->execute();
         $resultat = $requete->fetchAll(PDO::FETCH_ASSOC);
         return $resultat;
