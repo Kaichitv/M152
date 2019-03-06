@@ -1,5 +1,13 @@
 <?php
 
+/*
+  Projet: M152
+  Description: Fichier regroupant toutes les fonctions avec la base
+  Auteur: Jacot-dit-Montandon Ludovic
+  Version: 1.0
+  Date: 2018-19
+ */
+
 define('SERVER', "localhost");
 define('DBNAME', "m152");
 define('USER', "root");
@@ -62,6 +70,18 @@ function getAllMedia(){
     try {
         $connexion = getConnexion();
         $requete = $connexion->prepare("SELECT * FROM media");
+        $requete->execute();
+        $resultat = $requete->fetchAll(PDO::FETCH_ASSOC);
+        return $resultat;
+    } catch (Exception $ex) {
+        
+    }
+}
+
+function getMediaById($idPost){
+    try {
+        $connexion = getConnexion();
+        $requete = $connexion->prepare("SELECT * FROM media WHERE idPost=" . $idPost);
         $requete->execute();
         $resultat = $requete->fetchAll(PDO::FETCH_ASSOC);
         return $resultat;
