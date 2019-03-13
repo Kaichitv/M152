@@ -1,5 +1,4 @@
 <?php
-
 /*
   Projet: M152
   Description: Formulaire pour insérer des images, vidéos ou audios
@@ -11,78 +10,24 @@
 require_once 'functionDB.inc.php';
 
 if (isset($_POST["sendImg"])) {
-    if (isset($_POST["commentaire"])) {
-        $commentaire = filter_input(INPUT_POST, "commentaire", FILTER_SANITIZE_STRING);
-        $idPost = insertPost($commentaire, $datePost);
-    }
-    if (isset($_FILES["image"])) {
-        $arrayFiles = $_FILES["image"];
-        for ($i = 0; $i < count($arrayFiles["name"]); $i++) {
-            $dossier = 'upload/';
-            //$nomMedia = $arrayFiles["name"][$i];
-            $nomMedia = uniqid();
-            $typeMedia = $arrayFiles["type"][$i];
-            $datePost = date("Y-m-d H:i:s");
-            if (move_uploaded_file($arrayFiles["tmp_name"][$i], $dossier . $nomMedia)) { //Si la fonction renvoie TRUE, c'est que ça a fonctionné
-                insertMedia($typeMedia, $nomMedia, $idPost);
-                header("Location: index.php");
-            }
-            //Sinon (la fonction renvoie FALSE).
-            else {
-                echo "Echec de l\'upload !";
-            }
-        }
-    }
+    $tblFiles = $_FILES["image"];
+    $commentaire = filter_input(INPUT_POST, "commentaire", FILTER_SANITIZE_STRING);
+    $idPost = insertPostMedia($tblFiles, $commentaire);
+    header("Location: index.php?message=Upload réussi");
 }
 
 if (isset($_POST["sendVid"])) {
-    if (isset($_POST["commentaireVid"])) {
-        $commentaire = filter_input(INPUT_POST, "commentaireVid", FILTER_SANITIZE_STRING);
-        $idPost = insertPost($commentaire, $datePost);
-    }
-    if (isset($_FILES["video"])) {
-        $arrayFiles = $_FILES["video"];
-        for ($i = 0; $i < count($arrayFiles["name"]); $i++) {
-            $dossier = 'upload/';
-            //$nomMedia = $arrayFiles["name"][$i];
-            $nomMedia = uniqid();
-            $typeMedia = $arrayFiles["type"][$i];
-            $datePost = date("Y-m-d H:i:s");
-            if (move_uploaded_file($arrayFiles["tmp_name"][$i], $dossier . $nomMedia)) { //Si la fonction renvoie TRUE, c'est que ça a fonctionné
-                insertMedia($typeMedia, $nomMedia, $idPost);
-                header("Location: index.php");
-            }
-            //Sinon (la fonction renvoie FALSE).
-            else {
-                echo "Echec de l\'upload !";
-            }
-        }
-    }
+    $tblFiles = $_FILES["video"];
+    $commentaire = filter_input(INPUT_POST, "commentaireVid", FILTER_SANITIZE_STRING);
+    $idPost = insertPostMedia($tblFiles, $commentaire);
+    header("Location: index.php?message=Upload réussi");
 }
 
 if (isset($_POST["sendAud"])) {
-    if (isset($_POST["commentaireAud"])) {
-        $commentaire = filter_input(INPUT_POST, "commentaireAud", FILTER_SANITIZE_STRING);
-        $idPost = insertPost($commentaire, $datePost);
-    }
-    if (isset($_FILES["audio"])) {
-        $arrayFiles = $_FILES["audio"];
-        for ($i = 0; $i < count($arrayFiles["name"]); $i++) {
-            $dossier = 'upload/';
-            //$nomMedia = $arrayFiles["name"][$i];
-            $nomMedia = uniqid();
-            $typeMedia = $arrayFiles["type"][$i];
-            $datePost = date("Y-m-d H:i:s");
-            if (move_uploaded_file($arrayFiles["tmp_name"][$i], $dossier . $nomMedia)) { //Si la fonction renvoie TRUE, c'est que ça a fonctionné
-                insertMedia($typeMedia, $nomMedia, $idPost);
-                header("Location: index.php");
-            }
-            //Sinon (la fonction renvoie FALSE).
-            else {
-                echo "Echec de l\'upload !";
-            }
-        }
-    }
+    $tblFiles = $_FILES["audio"];
+    $commentaire = filter_input(INPUT_POST, "commentaireAud", FILTER_SANITIZE_STRING);
+    $idPost = insertPostMedia($tblFiles, $commentaire);
+    header("Location: index.php?message=Upload réussi");
 }
 ?>
 <!DOCTYPE html>
@@ -91,12 +36,27 @@ if (isset($_POST["sendAud"])) {
         <title>Post</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
-        <nav>
-            <a href="index.php">Home</a>
-            <a href="post.php">Post</a>
-        </nav>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+            <div class="container">
+                <a class="navbar-brand" href="#">M152</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.php">Home </a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="post.php">Post</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav><br><br><br>
         <div>
             <h1>Image</h1>
             <form action="#" method="POST" id="formImg" enctype="multipart/form-data"> 
