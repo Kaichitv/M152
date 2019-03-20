@@ -16,7 +16,16 @@ if (isset($_SESSION["message"])) {
 
 if(isset($_GET["idPost"]) && isset($_GET["delete"]))
 {
-    deletePost($_GET["idPost"]);
+    //Je commence par récupérer les media qui ont l'idPost que l'on supprime
+    //J'utilise une fonction qui supprime le post et les media de la base
+    //Puis pour chaque media que l'on a j'utilise unlink()
+    
+    $media = getMediaById($_GET["idPost"]);
+    deletePostMedia($_GET["idPost"]);
+    for ($i = 0; $i < count($media); $i++) 
+    {
+        unlink($media[0]["nomMedia"]);
+    }
     header("Location: index.php");
 }
 

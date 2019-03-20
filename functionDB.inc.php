@@ -75,6 +75,11 @@ function insertMedia($typeMedia, $nomMedia, $idPost){
         echo $requete->execute();
 }
 
+function deletePostMedia($idPost){
+    deletePost($idPost);
+    deleteMedia($idPost);
+}
+
 function deletePost($idPost) {
     try {
         $connexion = getConnexion();
@@ -84,6 +89,16 @@ function deletePost($idPost) {
         echo $exc->getTraceAsString();
     }
 }
+function deleteMedia($idPost) {
+    try {
+        $connexion = getConnexion();
+        $requete = $connexion->prepare("DELETE FROM `media` WHERE `idPost`=" .$idPost);
+        $requete->execute();
+    } catch (Exception $exc) {
+        echo $exc->getTraceAsString();
+    }
+}
+
 function getAllPost() {
     try {
         $connexion = getConnexion();
